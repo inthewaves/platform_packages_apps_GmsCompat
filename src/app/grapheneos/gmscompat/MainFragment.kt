@@ -45,6 +45,7 @@ class MainFragment : PreferenceFragment() {
         if (checkPackageId(PackageId.GMS_CORE_NAME, PackageId.GMS_CORE)) {
             screen.addPref().apply {
                 setTitle(R.string.play_services_special_permissions)
+                setSummary(R.string.play_services_special_permissions_summary)
                 intent = Intent().apply {
                     component = ComponentName(KnownSystemPackages.get(ctx).permissionController,
                         "com.android.permissioncontroller.ext.gmscore.GmsCoreConfigActivity")

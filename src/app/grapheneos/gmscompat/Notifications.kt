@@ -284,6 +284,7 @@ object Notifications {
                 return false
             }
             if (Telephony.Sms.getDefaultSmsPackage(ctx) != PackageId.BUGLE_NAME) {
+                android.util.Log.d("GmsCompat/Notifications", "Bugle not default SMS app")
                 return false
             }
             return true
@@ -291,6 +292,7 @@ object Notifications {
         val needsBaselinePerms = areMinimumRcsPermsGranted()
         val isOwnerUser = ctx.userId == 0
 
+        android.util.Log.d("GmsCompat/Notifications", "needsIccAuth $needsIccAuth needsBaselinePerms $needsBaselinePerms isOwnerUser $isOwnerUser")
         if (!needsIccAuth && !needsBaselinePerms && isOwnerUser) {
             return
         }

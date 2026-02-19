@@ -115,5 +115,17 @@ object BinderClientOfGmsCore2Gca : IClientOfGmsCore2Gca.Stub() {
                     && it.hasCapability("com.google.android.libraries.identity.googleid.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL")
         }
     }
+
+    override fun maybeShowRcsRequirementsNotification(callerPkg: String, isTs43Verification: Boolean) {
+        val ctx = App.ctx()
+        if (ctx.packageManager.getPackageUid(callerPkg, 0) != Binder.getCallingUid()) {
+            throw SecurityException()
+        }
+        if (callerPkg != PackageId.BUGLE_NAME) {
+            throw SecurityException()
+        }
+
+        Notifications.handleRcsNotification(isTs43Verification)
+    }
 }
 

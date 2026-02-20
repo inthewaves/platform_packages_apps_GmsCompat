@@ -15,8 +15,11 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import com.android.settingslib.widget.SettingsBasePreferenceFragment
 import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreferenceCompat
 import com.android.internal.gmscompat.GmsCompatApp
@@ -26,7 +29,11 @@ import java.util.concurrent.Executors
 
 private val bgExecutor = Executors.newSingleThreadExecutor()
 
-class MainFragment : PreferenceFragment() {
+class MainWrapperFragment : BaseCollapsingToolbarFragment() {
+    override fun createPreferenceFragment() = MainFragment()
+}
+
+class MainFragment : SettingsBasePreferenceFragment() {
     lateinit var potentialIssuesCategory: PreferenceCategory
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -46,9 +53,9 @@ class MainFragment : PreferenceFragment() {
             screen.addPref().apply {
                 setTitle(R.string.play_services_special_permissions)
                 setSummary(R.string.play_services_special_permissions_summary)
-                intent = Intent().apply {
-                    component = ComponentName(KnownSystemPackages.get(ctx).permissionController,
-                        "com.android.permissioncontroller.ext.gmscore.GmsCoreConfigActivity")
+                setOnPreferenceClickListener {
+                    navigateWithAnimation(route = NavRoutes.PLAY_SERVICES_CONFIG)
+                    true
                 }
             }
         }
@@ -64,9 +71,9 @@ class MainFragment : PreferenceFragment() {
         if (checkPackageId(PackageId.ANDROID_AUTO_NAME, PackageId.ANDROID_AUTO)) {
             screen.addPref().apply {
                 setTitle(R.string.android_auto)
-                intent = Intent().apply {
-                    component = ComponentName(KnownSystemPackages.get(ctx).permissionController,
-                        "com.android.permissioncontroller.ext.aauto.AndroidAutoConfigActivity")
+                setOnPreferenceClickListener {
+                    navigateWithAnimation(NavRoutes.ANDROID_AUTO_CONFIG)
+                    true
                 }
             }
         }

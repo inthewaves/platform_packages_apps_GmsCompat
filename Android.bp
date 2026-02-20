@@ -26,6 +26,7 @@ android_app {
         "appsearch_flags_java_exported_lib",
         "SettingsLibCategory",
         "SettingsLibCollapsingToolbarBaseActivity",
+        "SettingsLibFooterPreference",
     ],
     jarjar_rules: "jarjar-rules.txt",
 

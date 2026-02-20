@@ -6,5 +6,7 @@ package app.grapheneos.gmscompat
  * "kotlinx_serialization_core" and "kotlinx_serialization_json" imports.
  */
 object NavRoutes {
-    const val Main = "main"
+    const val MAIN = "main"
+    const val ANDROID_AUTO_CONFIG = "aautoConfig"
+    const val PLAY_SERVICES_CONFIG = "gmscoreConfig"
 }

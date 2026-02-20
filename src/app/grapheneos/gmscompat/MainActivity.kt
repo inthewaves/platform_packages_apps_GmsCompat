@@ -34,6 +34,12 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
         return navHostFragment.navController
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        android.util.Log.d("MainActivity", "new Intent $intent")
+        getNavController()?.handleDeepLink(intent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         EdgeToEdgeUtils.enable(this)
         super.onCreate(savedInstanceState)
@@ -48,17 +54,7 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
 
         val navController = getNavController()!!
         navController.apply {
-            graph = createGraph(startDestination = NavRoutes.MAIN) {
-                fragment<MainWrapperFragment>(NavRoutes.MAIN) {
-                    label = getString(R.string.activity_name)
-                }
-                fragment<AndroidAutoConfigWrapperFragment>(NavRoutes.ANDROID_AUTO_CONFIG) {
-                    label = getString(R.string.android_auto)
-                }
-                fragment<GmsCoreConfigWrapperFragment>(NavRoutes.PLAY_SERVICES_CONFIG) {
-                    label = getString(R.string.gmscore_settings)
-                }
-            }
+            graph = GmsCompatNavGraph.create(this)
 
             /*
             Unfortunately, the following does not work, because collapsingtoolbar's action_bar is
@@ -110,6 +106,7 @@ private class ActivityTitleListener(mainActivity: MainActivity) : NavController.
         // fillInLabel can be found in
         // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:navigation/navigation-common/src/androidMain/kotlin/androidx/navigation/NavDestination.android.kt
         val label: String? = destination.fillInLabel(activity, arguments)
+        android.util.Log.d("MainActivity", "label $label")
         label?.let { activity.title = it }
     }
 }

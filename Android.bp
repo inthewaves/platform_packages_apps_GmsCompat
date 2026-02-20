@@ -17,11 +17,16 @@ android_app {
         "res",
     ],
     static_libs: [
+        "androidx.navigation_navigation-common-ktx",
+        "androidx.navigation_navigation-fragment-ktx",
+        "androidx.navigation_navigation-runtime-ktx",
+        "androidx.navigation_navigation-ui-ktx",
         "androidx.preference_preference",
         // needed by framework-appsearch-safeparcel-sources
         "appsearch_flags_java_exported_lib",
         "SettingsLibCategory",
         "SettingsLibCollapsingToolbarBaseActivity",
+        "SettingsLibFooterPreference",
     ],
     jarjar_rules: "jarjar-rules.txt",
 

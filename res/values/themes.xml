@@ -1,5 +1,5 @@
 <resources>
-    <style name="Settings" parent="Theme.SubSettingsBase">
+    <style name="Settings" parent="Theme.SubSettingsBase.Expressive">
         <!--<item name="preferenceCategoryTitleTextAppearance">@style/TextAppearance.CategoryTitle</item>-->
     </style>
     <!--

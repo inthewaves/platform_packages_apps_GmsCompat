@@ -1,6 +1,7 @@
 package app.grapheneos.gmscompat
 
 import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceFragmentCompat
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseFragment
 
@@ -19,8 +20,23 @@ abstract class BaseCollapsingToolbarFragment : CollapsingToolbarBaseFragment() {
             preferenceFragment = createPreferenceFragment()
             preferenceFragment.setArguments(arguments)
             getChildFragmentManager().beginTransaction()
-                .add(R.id.content_frame, preferenceFragment)
+                .add(
+                    com.android.settingslib.collapsingtoolbar.R.id.content_frame,
+                    preferenceFragment
+                )
                 .commit()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        collapsingToolbarLayout?.let { layout ->
+            val controller = findNavController()
+            controller.currentDestination?.let { destination ->
+                val args = controller.currentBackStackEntry?.arguments ?: Bundle.EMPTY
+                val label: String? = destination.fillInLabel(layout.context, args)
+                label?.let { layout.title = it }
+            }
         }
     }
 

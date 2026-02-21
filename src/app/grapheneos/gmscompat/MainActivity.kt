@@ -5,7 +5,6 @@ import android.content.Intent
 import android.ext.PackageId
 import android.os.Bundle
 import android.os.Build
-import androidx.activity.OnBackPressedCallback
 import com.android.settingslib.collapsingtoolbar.EdgeToEdgeUtils
 import com.android.settingslib.collapsingtoolbar.SettingsTransitionActivity
 import com.android.settingslib.widget.ExpressiveDesignEnabledProvider
@@ -13,15 +12,7 @@ import com.android.settingslib.widget.theme.flags.Flags
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import java.lang.ref.WeakReference
-import androidx.navigation.FloatingWindow
-import androidx.navigation.createGraph
-import androidx.navigation.fragment.fragment
-import androidx.navigation.NavDestination
 import androidx.navigation.ui.navigateUp
-import androidx.savedstate.SavedState
-import app.grapheneos.gmscompat.config.aauto.AndroidAutoConfigWrapperFragment
-import app.grapheneos.gmscompat.config.gmscore.GmsCoreConfigWrapperFragment
 
 const val USAGE_GUIDE_URL = "https://grapheneos.org/usage#sandboxed-google-play"
 
@@ -36,7 +27,6 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        android.util.Log.d("MainActivity", "new Intent $intent")
         getNavController()?.handleDeepLink(intent)
     }
 
@@ -68,45 +58,18 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
                 AppBarConfiguration(graph, null),
             )
             */
-
-            addOnDestinationChangedListener(ActivityTitleListener(this@MainActivity))
         }
+    }
 
-        val callback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-               if (getNavController()?.navigateUp(null) != true) {
-                   finishAfterTransition()
-               }
-            }
+    override fun onNavigateUp(): Boolean {
+        if (getNavController()?.navigateUp(null) != true) {
+            finishAfterTransition()
         }
-        onBackPressedDispatcher.addCallback(this, callback)
+        return true
     }
 
     override fun isExpressiveDesignEnabled(): Boolean {
         return Build.VERSION.SDK_INT >= 36 && DeviceUtils.isHandheld &&
                 Flags.isExpressiveDesignEnabled()
-    }
-}
-
-private class ActivityTitleListener(mainActivity: MainActivity) : NavController.OnDestinationChangedListener {
-    val activityRef = WeakReference(mainActivity)
-
-    override fun onDestinationChanged(
-        controller: NavController,
-        destination: NavDestination,
-        arguments: SavedState?
-    ) {
-        val activity = activityRef.get()
-        if (activity == null) {
-            controller.removeOnDestinationChangedListener(this)
-            return
-        }
-        if (destination is FloatingWindow) return
-        // ASfP does not like Kotlin multiplatform projects using Android-specific functions.
-        // fillInLabel can be found in
-        // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:navigation/navigation-common/src/androidMain/kotlin/androidx/navigation/NavDestination.android.kt
-        val label: String? = destination.fillInLabel(activity, arguments)
-        android.util.Log.d("MainActivity", "label $label")
-        label?.let { activity.title = it }
     }
 }

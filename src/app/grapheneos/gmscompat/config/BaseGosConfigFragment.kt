@@ -41,7 +41,6 @@ import app.grapheneos.gmscompat.pressBack
  */
 abstract class BaseGosConfigFragment(
     val configuringPkgName: String,
-    @StringRes val titleStringRes: Int,
 ) : SettingsBasePreferenceFragment() {
     protected val pkgFlagPrefs = mutableMapOf<Int, SwitchPreferenceCompat>()
     /**
@@ -96,7 +95,6 @@ abstract class BaseGosConfigFragment(
 
     override fun onStart() {
         super.onStart()
-        requireActivity().setTitle(titleStringRes)
         updateUi()
     }
 

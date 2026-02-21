@@ -51,7 +51,6 @@ class AndroidAutoConfigWrapperFragment : BaseCollapsingToolbarFragment() {
 
 class AndroidAutoConfigFragment : BaseGosConfigFragment(
     configuringPkgName = CONFIG_PKG_NAME,
-    titleStringRes = R.string.android_auto
 ) {
     lateinit var aautoSettingsPref: Preference
     lateinit var potentialIssues: PreferenceGroup

@@ -49,7 +49,6 @@ class GmsCoreConfigWrapperFragment : BaseCollapsingToolbarFragment() {
 
 class GmsCoreConfigFragment : BaseGosConfigFragment(
     configuringPkgName = CONFIG_PKG_NAME,
-    titleStringRes = R.string.gmscore_settings
 ) {
 
     lateinit var rcsPotentialIssues: Preference

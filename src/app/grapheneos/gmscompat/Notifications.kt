@@ -13,8 +13,6 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.provider.Telephony
 import android.util.Log
-import androidx.navigation.NavigatorProvider
-import androidx.navigation.NavDeepLinkBuilder
 import app.grapheneos.gmscompat.App.MainProcessPrefs
 import com.android.internal.gmscompat.GmsInfo
 import java.util.concurrent.atomic.AtomicInteger
@@ -311,12 +309,9 @@ object Notifications {
             return
         }
 
-        val deepLinkPendingIntent = NavDeepLinkBuilder(ctx)
-            .setGraph(GmsCompatNavGraph.create())
-            .setDestination(NavRoutes.PLAY_SERVICES_CONFIG)
-            .setComponentName(MainActivity::class.java)
-            // has the flags PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            .createPendingIntent()
+        val deepLinkPendingIntent = activityPendingIntent(
+            NavRoutes.PlayServicesConfig.createIntent()
+        )
 
         builder(CH_MISSING_PERMISSION).apply {
             setSmallIcon(R.drawable.ic_configuration_required)

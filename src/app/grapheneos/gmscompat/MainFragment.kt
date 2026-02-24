@@ -15,7 +15,6 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
@@ -54,7 +53,7 @@ class MainFragment : SettingsBasePreferenceFragment() {
                 setTitle(R.string.play_services_special_permissions)
                 setSummary(R.string.play_services_special_permissions_summary)
                 setOnPreferenceClickListener {
-                    navigateWithAnimation(route = NavRoutes.PLAY_SERVICES_CONFIG)
+                    navigateWithAnimation(NavRoutes.PlayServicesConfig)
                     true
                 }
             }
@@ -72,7 +71,7 @@ class MainFragment : SettingsBasePreferenceFragment() {
             screen.addPref().apply {
                 setTitle(R.string.android_auto)
                 setOnPreferenceClickListener {
-                    navigateWithAnimation(NavRoutes.ANDROID_AUTO_CONFIG)
+                    navigateWithAnimation(NavRoutes.AndroidAutoConfig)
                     true
                 }
             }

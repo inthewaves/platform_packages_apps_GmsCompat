@@ -11,9 +11,10 @@ import android.ext.PackageId
 import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
-import android.provider.Telephony
 import android.util.Log
 import app.grapheneos.gmscompat.App.MainProcessPrefs
+import app.grapheneos.gmscompat.config.getAllIssueRes
+import app.grapheneos.gmscompat.config.gmscore.rcsIssueChecks
 import com.android.internal.gmscompat.GmsInfo
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -273,34 +274,7 @@ object Notifications {
 
         val tag = "GmsCompat/RCS"
 
-        fun areMinimumRcsPermsGranted(): Boolean {
-            // GmsCore
-            if (pm.checkPermission(
-                    android.Manifest.permission.INTERNET,
-                    PackageId.GMS_CORE_NAME) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(tag, "Missing internet permission for GmsCore")
-                return false
-            }
-            if (pm.checkPermission(
-                    android.Manifest.permission.READ_PHONE_STATE,
-                    PackageId.GMS_CORE_NAME) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(tag, "Missing READ_PHONE_STATE permission for GmsCore")
-                return false
-            }
-            // Bugle
-            if (pm.checkPermission(
-                    android.Manifest.permission.INTERNET,
-                    PackageId.BUGLE_NAME) != PackageManager.PERMISSION_GRANTED) {
-                Log.d(tag, "Missing INTERNET permission for Bugle")
-                return false
-            }
-            if (Telephony.Sms.getDefaultSmsPackage(ctx) != PackageId.BUGLE_NAME) {
-                Log.d(tag, "Bugle not default SmsPackage")
-                return false
-            }
-            return true
-        }
-        val needsBaselinePerms = !areMinimumRcsPermsGranted()
+        val needsBaselinePerms = rcsIssueChecks.getAllIssueRes(ctx).any()
         val isOwnerUser = ctx.userId == 0
         Log.d(tag, "needsIccAuth $needsIccAuth needsBaselinePerms $needsBaselinePerms isOwnerUser $isOwnerUser")
         if (!needsIccAuth && !needsBaselinePerms && isOwnerUser) {

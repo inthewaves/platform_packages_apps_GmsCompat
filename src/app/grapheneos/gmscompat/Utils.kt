@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import app.grapheneos.gmscompat.Const.ENABLE_LOGGING
@@ -202,8 +203,8 @@ fun Fragment.pressBack() {
     }
 }
 
-fun <T : Any> Fragment.navigateWithAnimation(route: T) {
-    findNavController().navigate(
+fun <T : Any> NavController.navigateWithAnimation(route: T) {
+    navigate(
         route,
         navOptions {
             // ASfP doesn't resolve this, doesn't seem to play well with Kotlin mutliplatform.
@@ -215,4 +216,8 @@ fun <T : Any> Fragment.navigateWithAnimation(route: T) {
             }
         }
     )
+}
+
+fun <T : Any> Fragment.navigateWithAnimation(route: T) {
+    findNavController().navigateWithAnimation(route)
 }

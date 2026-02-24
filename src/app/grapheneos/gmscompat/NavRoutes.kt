@@ -1,17 +1,16 @@
 package app.grapheneos.gmscompat
 
 import android.content.Intent
-import androidx.core.net.toUri
+import android.os.Bundle
 import kotlinx.serialization.Serializable
 
 /**
  * Use this with a NavController to navigate
- *
- * See https://developer.android.com/guide/navigation/design/kotlin-dsl#uri_format when trying
- * to create a deep link URI with args
  */
 object NavRoutes {
-    interface DeepLink {
+    private const val EXTRA_KEY_ROUTE = "gmscompat.route"
+
+    sealed interface DeepLink {
         fun createIntent(): Intent
     }
 
@@ -28,7 +27,23 @@ object NavRoutes {
         const val basePath = "gmscompat://playservicesconfig"
         override fun createIntent() = Intent().apply {
             setClass(App.ctx(), MainActivity::class.java)
-            data = basePath.toUri()
+            putExtra(EXTRA_KEY_ROUTE, basePath)
         }
+
+        fun parseRoute(extras: Bundle): PlayServicesConfig? {
+            return if (extras.getString(EXTRA_KEY_ROUTE, "") == basePath) {
+                PlayServicesConfig
+            } else {
+                null
+            }
+        }
+    }
+
+    fun findRoute(extras: Bundle?): DeepLink? {
+        extras ?: return null
+
+        PlayServicesConfig.parseRoute(extras)?.let { return it }
+
+        return null
     }
 }

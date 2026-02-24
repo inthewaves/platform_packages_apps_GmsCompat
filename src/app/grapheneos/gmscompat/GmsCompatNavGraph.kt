@@ -16,15 +16,9 @@ object GmsCompatNavGraph {
             }
             fragment<AndroidAutoConfigWrapperFragment, NavRoutes.AndroidAutoConfig> {
                 label = ctx.getString(R.string.android_auto)
-                deepLink<NavRoutes.AndroidAutoConfig>(
-                    NavRoutes.AndroidAutoConfig.basePath
-                ) {}
             }
             fragment<GmsCoreConfigWrapperFragment, NavRoutes.PlayServicesConfig> {
                 label = ctx.getString(R.string.gmscore_settings)
-                deepLink<NavRoutes.PlayServicesConfig>(
-                    NavRoutes.PlayServicesConfig.basePath
-                ) {}
             }
         }
     }

@@ -203,7 +203,7 @@ fun Fragment.pressBack() {
     }
 }
 
-fun <T : Any> NavController.navigateWithAnimation(route: T) {
+fun <T : NavRoute> NavController.navigateWithAnimation(route: T) {
     navigate(
         route,
         navOptions {
@@ -218,6 +218,6 @@ fun <T : Any> NavController.navigateWithAnimation(route: T) {
     )
 }
 
-fun <T : Any> Fragment.navigateWithAnimation(route: T) {
+fun <T : NavRoute> Fragment.navigateWithAnimation(route: T) {
     findNavController().navigateWithAnimation(route)
 }

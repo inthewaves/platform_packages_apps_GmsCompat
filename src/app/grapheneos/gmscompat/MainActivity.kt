@@ -4,7 +4,6 @@ import android.app.compat.gms.GmsCompat
 import android.content.Intent
 import android.ext.PackageId
 import android.os.Bundle
-import android.os.Build
 import com.android.settingslib.collapsingtoolbar.EdgeToEdgeUtils
 import com.android.settingslib.collapsingtoolbar.SettingsTransitionActivity
 import com.android.settingslib.widget.ExpressiveDesignEnabledProvider
@@ -36,13 +35,13 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
         // This is for completeness purposes.
         super.onNewIntent(intent)
         val navController = getNavController() ?: return
-        val route = NavRoutes.findRoute(intent.extras) ?: return
+        val route = NavRoute.findRoute(intent.extras) ?: return
         navController.apply {
             val startRoute = graph.startDestinationRoute
             if (startRoute != null) {
                 popBackStack(startRoute, inclusive = false)
             } else {
-                popBackStack<NavRoutes.Main>(inclusive = false)
+                popBackStack<NavRoute.Main>(inclusive = false)
             }
             navigateWithAnimation(route)
         }
@@ -79,7 +78,7 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
         }
 
         if (savedInstanceState == null && !intent.isLaunchedFromHistory) {
-            NavRoutes.findRoute(intent.extras)?.let { route ->
+            NavRoute.findRoute(intent.extras)?.let { route ->
                 navController.navigateWithAnimation(route)
             }
         }

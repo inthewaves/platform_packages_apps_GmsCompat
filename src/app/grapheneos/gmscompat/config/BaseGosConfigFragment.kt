@@ -166,6 +166,11 @@ abstract class BaseGosConfigFragment(
         }
     }
 
+    protected fun Preference.updateWithIssues(
+        @StringRes dialogHeader: Int,
+        issueChecks: Sequence<IssueCheck>
+    ) = updateWithIssues(dialogHeader, issueChecks.asIterable())
+
     /**
      * Updates a preference with issues determined by the given [issueChecks]. If there are issues,
      * the preference will be visible and dialog will show issues when clicked. If no issues,
@@ -173,7 +178,7 @@ abstract class BaseGosConfigFragment(
      */
     protected fun Preference.updateWithIssues(
         @StringRes dialogHeader: Int,
-        issueChecks: List<IssueCheck>
+        issueChecks: Iterable<IssueCheck>
     ) {
         val text = getIssuesText(dialogHeader, issueChecks)
         isVisible = text != null
@@ -191,7 +196,7 @@ abstract class BaseGosConfigFragment(
 
     private fun getIssuesText(
         @StringRes header: Int,
-        issueChecks: List<IssueCheck>
+        issueChecks: Iterable<IssueCheck>
     ): CharSequence? {
         val list = issueChecks.getAllIssueRes(requireContext())
         if (list.isEmpty()) {

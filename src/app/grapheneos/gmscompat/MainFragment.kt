@@ -3,11 +3,9 @@ package app.grapheneos.gmscompat
 import android.Manifest.permission
 import android.app.AlertDialog
 import android.app.AppOpsManager
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager.PackageInfoFlags
-import android.ext.KnownSystemPackages
 import android.ext.PackageId
 import android.location.LocationManager
 import android.net.Uri
@@ -17,13 +15,11 @@ import android.provider.Settings
 import android.view.View
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.PreferenceFragmentCompat
 import com.android.settingslib.widget.SettingsBasePreferenceFragment
 import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreferenceCompat
 import com.android.internal.gmscompat.GmsCompatApp
 import com.android.internal.gmscompat.GmsInfo.PACKAGE_GMS_CORE
-import com.android.settingslib.preference.PreferenceFragment
 import java.util.concurrent.Executors
 
 private val bgExecutor = Executors.newSingleThreadExecutor()
@@ -53,7 +49,9 @@ class MainFragment : SettingsBasePreferenceFragment() {
                 setTitle(R.string.play_services_special_permissions)
                 setSummary(R.string.play_services_special_permissions_summary)
                 setOnPreferenceClickListener {
-                    navigateWithAnimation(NavRoutes.PlayServicesConfig)
+                    val route = NavRoute.PlayServicesConfig.parseRoute(activity?.intent?.extras)
+                        ?: NavRoute.PlayServicesConfig()
+                    navigateWithAnimation(route)
                     true
                 }
             }
@@ -71,7 +69,7 @@ class MainFragment : SettingsBasePreferenceFragment() {
             screen.addPref().apply {
                 setTitle(R.string.android_auto)
                 setOnPreferenceClickListener {
-                    navigateWithAnimation(NavRoutes.AndroidAutoConfig)
+                    navigateWithAnimation(NavRoute.AndroidAutoConfig)
                     true
                 }
             }

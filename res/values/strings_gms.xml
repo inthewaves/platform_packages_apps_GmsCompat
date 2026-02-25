@@ -95,6 +95,7 @@ Some carriers require an entitlement check (GSMA TS.43 with EAP-AKA authenticati
     <string name="rcs_issue_header">These are the minimum requirements for RCS activation:</string>
     <string name="rcs_issue_gmscore_no_phone_perm">Google Play services needs the Phone permission</string>
     <string name="rcs_issue_gmscore_no_internet_perm">Google Play services needs the Network permission</string>
+    <string name="rcs_issue_gmscore_no_icc_auth_perm">Google Play services may need permission to do ICC authentication with device identifiers</string>
     <string name="rcs_issue_bugle_not_installed">Google Messages needs to be installed from the Play Store</string>
     <string name="rcs_issue_bugle_disabled">Google Messages needs to be enabled</string>
     <string name="rcs_issue_bugle_not_from_play_store">Google Messages is not installed from the Play Store. Although RCS can work, installing this way may not be stable.</string>

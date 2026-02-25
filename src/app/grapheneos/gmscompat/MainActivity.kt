@@ -34,6 +34,7 @@ class MainActivity : SettingsTransitionActivity(), ExpressiveDesignEnabledProvid
         // called. If Intent.FLAG_ACTIVITY_CLEAR_TASK wasn't there, this would be relevant.
         // This is for completeness purposes.
         super.onNewIntent(intent)
+        setIntent(intent)
         val navController = getNavController() ?: return
         val route = NavRoute.findRoute(intent.extras) ?: return
         navController.apply {
